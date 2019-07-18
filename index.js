@@ -10,6 +10,10 @@ const app = new Koa()
 const router = new Router()
 
 router
+    .get('/', async (ctx) =>{
+        ctx.status = 200
+        ctx.body = process.env
+    })
     .post('/cards', async (ctx) =>{
         const data = ctx.request.body
         const id = await insert(postgres(ctx), data.name)

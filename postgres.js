@@ -18,7 +18,7 @@ async function setup(pg, schema) {
 }
 
 export function postgresMiddleware( schema ){
-    const pg = new PgAsync({connectionString: 'postgres://amagi:amagiacademy@localhost:5432/library'})
+    const pg = new PgAsync({connectionString: process.env.POSTGRES_URI})
     const setupSchema = once(setup)
 
     return async (ctx, next) => {
