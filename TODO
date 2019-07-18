@@ -1,0 +1,4 @@
+fix postgresql urlstring
+put server in the docker (add postgresql service)
+test routes in postman
+add swagger
