@@ -1,6 +1,7 @@
 import PgAsync from 'pg-async'
 import once from 'once'
 
+// setup function to execute migrations
 async function setup(pg, schema) {
     await pg.transaction(async (tx) => {
         const { drop, create } = schema
@@ -17,6 +18,9 @@ async function setup(pg, schema) {
     })
 }
 
+// createts a new PgAsync object
+// ensures setup executes only once
+// attach PgAsync object to the context
 export function postgresMiddleware( schema ){
     const pg = new PgAsync({connectionString: process.env.POSTGRES_URI})
     const setupSchema = once(setup)
@@ -28,6 +32,7 @@ export function postgresMiddleware( schema ){
     }
 }
 
+// extract PgAsync object from the context
 export function postgres(ctx) {
     return ctx._postgres
 }

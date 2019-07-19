@@ -1,3 +1,5 @@
+
+// migration object
 export const schema = {
     create: [
         `CREATE TABLE cards(
@@ -11,6 +13,7 @@ export const schema = {
 }
 
 
+// database interface for our application
 export async function insert(pg, data){
     return pg.rows(
         `INSERT INTO cards(name) VALUES ($1) RETURNING id`, data

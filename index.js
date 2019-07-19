@@ -8,8 +8,10 @@ import {schema, insert, retrieve, retrieveAll, update } from './model'
 import * as swagger from 'swagger2'
 import {ui, validate } from 'swagger2-koa'
 
+// load API spec from swagger.yml
 const spec = swagger.loadDocumentSync('./swagger.yml')
 
+// validate document
 if (!swagger.validateDocument(spec)) {
     throw new Error('Invalid Swagger file')
 }
@@ -18,10 +20,10 @@ const app = new Koa()
     .use(jsonBody())
     .use(postgresMiddleware(schema))
 
+// use /v1 prefix for our routes
 const router = new Router({
     'prefix': '/v1'
 })
-const specjsonrouter = new Router()
 
 router
     .post('/cards', async (ctx) =>{
@@ -49,7 +51,6 @@ router
     .get('/swagger.json', (ctx) => {ctx.body = spec})
 
 app.use(router.routes())
-app.use(specjsonrouter.routes())
 app.use(router.allowedMethods())
 app.use(ui(spec))
 app.use(validate(spec))
