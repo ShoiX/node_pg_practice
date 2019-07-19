@@ -50,10 +50,10 @@ router
     })
     .get('/swagger.json', (ctx) => {ctx.body = spec})
 
-app.use(router.routes())
-app.use(router.allowedMethods())
-app.use(ui(spec))
-app.use(validate(spec))
+app.use(router.routes())    // use router
+app.use(router.allowedMethods())    // respond OPTIONS requests 
+app.use(ui(spec))   // serve swagger-ui from /
+app.use(validate(spec)) // validate request against spec
 
 app.listen(8080)
 console.log('Server started at port 8080')
