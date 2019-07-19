@@ -1,0 +1,126 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Library Cards System
+  license:
+    name: Proprietary
+basePath: /v1
+consumes:
+  - application/json
+produces:
+  - application/json
+schemes:
+  - http
+  - https
+paths:
+  '/swagger.json':
+    get:
+      tags:
+        - Spec
+      operationId: retrieveSpec
+      description: Retrieve OpenAPI spec.
+      responses:
+        '200':
+          description: Successful
+          schema:
+            type: object
+  '/cards':
+    get:
+      tags:
+        - Get Cards
+      operationId: greetUser
+      description: Retrieve all available cards
+      responses:
+        '200':
+          description: Successful
+          schema:
+            type: object
+        '400':
+          description: Invalid Request
+          schema:
+            type: object
+    post:
+      description: Adds a new Card
+      operationId: addCard
+      tags:
+        - Add card
+      parameters:
+        - name: card
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/AddCardBase'
+      responses:
+        '200':
+          description: Card added
+          schema:
+            type: object
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+        default:
+          description: Unexpected error
+          schema:
+            type: object
+  '/cards/{id}':
+    get:
+      tags:
+        - Get Card by id
+      operationId: getCard
+      description: Retrieves a card based on id
+      parameters:
+        - $ref: '#/parameters/id'
+      responses:
+        '200':
+          description: Successful
+          schema:
+            type: object
+        '400':
+          description: Invalid Request
+          schema:
+            type: object
+    put:
+      description: Update Card
+      operationId: updateCard
+      tags:
+        - Update
+      parameters:
+        - $ref: '#/parameters/id'
+        - name: card
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/AddCardBase'
+      responses:
+        '204':
+          description: Card Updated
+          schema:
+            type: object
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+        '401':
+          description: Authentication Failed
+          schema:
+            type: object
+        default:
+          description: Unexpected error
+          schema:
+            type: object
+    
+definitions:
+  AddCardBase:
+    required:
+      - name
+    type: object
+    properties:
+      name:
+        type: string
+parameters:
+  id:
+    name: id
+    in: path
+    required: true
+    type: integer

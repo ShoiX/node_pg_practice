@@ -3,6 +3,7 @@ services:
   postgres:
     image: postgres:10
     environment:
+      POSTGRES_PASSWORD: nwbrnlgndz
       POSTGRES_USER: amagi
       POSTGRES_DB: library
     volumes:
@@ -15,7 +16,7 @@ services:
       context: $PWD
       dockerfile: $PWD/Dockerfile
     environment:
-      POSTGRES_URI: postgres://amagi@postgres/library
+      POSTGRES_URI: postgres://amagi:nwbrnlgndz@postgres/library
       BACKEND_PORT: 8080
       DEBUG: swagger2-koa:*
     restart:
