@@ -3,6 +3,7 @@ import Router from 'koa-router'
 import jsonBody from 'koa-json-body'
 import {postgresMiddleware, postgres } from './postgres'
 import {schema, insert, retrieve, retrieveAll, update } from './model'
+import { validation as swaggerValidation } from './validate'
 
 // swagger and swaggerui modules
 import * as swagger from 'swagger2'
@@ -19,7 +20,8 @@ if (!swagger.validateDocument(spec)) {
 const app = new Koa()
     .use(jsonBody())
     .use(postgresMiddleware(schema))
-
+    .use(swaggerValidation(spec)) // validate request against spec
+    //.use(validate(spec))
 // use /v1 prefix for our routes
 const router = new Router({
     'prefix': '/v1'
@@ -53,7 +55,7 @@ router
 app.use(router.routes())    // use router
 app.use(router.allowedMethods())    // respond OPTIONS requests 
 app.use(ui(spec))   // serve swagger-ui from /
-app.use(validate(spec)) // validate request against spec
+
 
 app.listen(8080)
 console.log('Server started at port 8080')
